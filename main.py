@@ -24,11 +24,19 @@ parser.add_argument('--model_cache_dir', required=True,type=str)
 parser.add_argument('--data_cache_dir', required=True,type=str)
 parser.add_argument('--model_key', type=str)
 parser.add_argument('--prompt_retrieval_method', default='similar',type=str)
+<<<<<<< HEAD
 parser.add_argument('--model_name', default='/home/huxingjian/model/huggingface/EleutherAI/gpt-j-6b',type=str)
 parser.add_argument('--embedding_model', default='/home/huxingjian/model/huggingface/sentence-transformers/paraphrase-mpnet-base-v2',type=str)
 parser.add_argument('--annotation_size', default=100,type=int)
 parser.add_argument('--seed', default=0, type=int)
 parser.add_argument('--batch_size', default=10, type=int)
+=======
+parser.add_argument('--model_name', default='EleutherAI/gpt-j-6B',type=str)
+parser.add_argument('--embedding_model', default='sentence-transformers/paraphrase-mpnet-base-v2',type=str)
+parser.add_argument('--annotation_size', default=100,type=int)
+parser.add_argument('--seed', default=0,type=int)
+parser.add_argument('--batch_size', default=10,type=int)
+>>>>>>> origin/main
 parser.add_argument('--debug', action='store_true')
 parser.add_argument('--cuda_id', type=int, default = 0)
 
@@ -72,12 +80,19 @@ if __name__=='__main__':
         with open(os.path.join(args.output_dir, "eval_embeds.pickle"), 'wb') as myfile:
             pickle.dump(total_eval_embeds, myfile)
 
+<<<<<<< HEAD
     if args.task_name in ['mnli','rte','sst5','mrpc','dbpedia_14','hellaswag','xsum','nq', 'sst2+imdb', 'boolq']:
         if args.task_name=='xsum':
             tokenizer_gpt = AutoTokenizer.from_pretrained("/home/huxingjian/model/huggingface/EleutherAI/gpt-j-6b", 
                                                           cache_dir=args.model_cache_dir)
             inference_model = GPTJForCausalLM.from_pretrained("/home/huxingjian/model/huggingface/EleutherAI/gpt-j-6b",
                                                               cache_dir=args.model_cache_dir)
+=======
+    if args.task_name in ['mnli','rte','sst5','mrpc','dbpedia_14','hellaswag','xsum','nq']:
+        if args.task_name=='xsum':
+            tokenizer_gpt = AutoTokenizer.from_pretrained(args.model_name,cache_dir=args.model_cache_dir)
+            inference_model = GPTJForCausalLM.from_pretrained("EleutherAI/gpt-j-6B",cache_dir=args.model_cache_dir)
+>>>>>>> origin/main
             inference_model.cuda()
             inference_model.eval()
             data_module = None
@@ -144,7 +159,11 @@ if __name__=='__main__':
         running_flag = True
         golds = []
         preds = []
+<<<<<<< HEAD
         if not args.task_name in ['hellaswag','xsum','nq']: # 剩余情况都是单选题，进行唯一的映射
+=======
+        if not args.task_name in ['hellaswag','xsum','nq']:
+>>>>>>> origin/main
             all_labels = []
             label_to_digit = {}
             for k, v in label_map.items():
